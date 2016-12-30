@@ -5,7 +5,7 @@
 >
 </header>
 
-<section class="frame frame_projects">
+<section class="frame">
   <div class="container">
 
     <div class="project__section">
@@ -22,24 +22,32 @@
 
     <div class="project__section">
       <div class="col-lg-2">
-        <h5 class="project__heading">Responsibilities</h5>
-      </div>
-      <div class="col-lg-9">
-        <ul class="project-page-list">
-          <li *ngFor="let item of vacancy.responsibilities">
-            {{item}}
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="project__section">
-      <div class="col-lg-2">
         <h5 class="project__heading">Requirements</h5>
       </div>
       <div class="col-lg-9">
         <ul class="project-page-list">
           <li *ngFor="let item of vacancy.requirements">
+            {{item}}
+          </li>
+        </ul>
+        <div *ngIf="vacancy.requirementsPlus">
+          <p>Would be a plus:</p>
+          <ul class="project-page-list">
+            <li *ngFor="let item of vacancy.requirementsPlus">
+              {{item}}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="project__section">
+      <div class="col-lg-2">
+        <h5 class="project__heading">Responsibilities</h5>
+      </div>
+      <div class="col-lg-9">
+        <ul class="project-page-list">
+          <li *ngFor="let item of vacancy.responsibilities">
             {{item}}
           </li>
         </ul>

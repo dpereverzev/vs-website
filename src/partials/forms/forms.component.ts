@@ -9,25 +9,32 @@ import { MailService } from '../../services/mail.service';
   templateUrl: './forms.html'
 })
 export class FormsComponent implements OnInit {
+  @Input('pageName') public pageName:string;
   public success:boolean = false;
+  public preloader:boolean = false;
+  public isBlured:boolean = true;
   public fileName:string;
-
-  @Input('pageName')
-  private pageName:string;
+  public email: string = '';
+  public name:string = '';
+  public msg:string = '';
+  public city:string = '';
+  public phone:string = '';
+  public userName: string = '';
+  public userEmail: string = '';
+  public userPhone: string = '';
+  public userCity: string = '';
+  public vacancyForm:any;
+  public caseForm:any;
+  public contactForm:any;
+  public isMobile:boolean = false;
+  public file:any;
   private location:Location;
   private urlEvents:Subject<any>;
   private isContactForm:boolean = false;
   private isCaseForm:boolean = false;
-  private isMobile:boolean = false;
   private isVacancyForm:boolean = false;
   private MailServiceSubscribe:Subscription;
   private mailService:MailService;
-  private email:string = '';
-  private name:string = '';
-  private msg:string = '';
-  private city:string = '';
-  private phone:string = '';
-  private file:any;
 
   public constructor(@Inject(Location) location:Location, mailService:MailService) {
     this.urlEvents = new Subject();
@@ -50,8 +57,17 @@ export class FormsComponent implements OnInit {
     }
   }
 
+  public onBlur():void {
+    this.isBlured = true;
+  }
+
+  public onFocus():void  {
+    this.isBlured = false;
+  }
+
   public onSubmit(event: any):void {
     event.target.reset();
+    this.preloader = true;
     this.fileName = '';
   }
 
@@ -75,12 +91,17 @@ export class FormsComponent implements OnInit {
 
     function mailCallback (res:any):void {
       if (res.err) {
+        self.preloader = false;
+        alert('Something goes wrong');
         console.error(res.err);
         return;
       }
       let successTime = 3000;
       self.success = true;
-      setTimeout(() => self.success = false, successTime);
+      self.preloader = false;
+      setTimeout(() => {
+        self.success = false;
+      }, successTime);
     }
 
     if (this.isCaseForm) {
